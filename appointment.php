@@ -1,17 +1,6 @@
 <?php
-// Make sure to replace these values with your actual database credentials
-$servername = "localhost";
-$username = "your_username";
-$password = "Bee19Knee's99";
-$dbname = "appointment";
+ require_once('db.php'); // Include the database connection file
 
-// Create a connection to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $full_name = $_POST["Full_Name"];

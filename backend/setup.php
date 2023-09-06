@@ -1,10 +1,9 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "Bee19Knee's99";
-$dbname = "UHC";
+$username = "makilagied";
+$password = "password";
 
-// Create connection
+// Create a connection
 $conn = new mysqli($servername, $username, $password);
 
 // Check connection
@@ -13,6 +12,7 @@ if ($conn->connect_error) {
 }
 
 // Create the database
+$dbname = "UHC";
 $sql = "CREATE DATABASE IF NOT EXISTS $dbname";
 if ($conn->query($sql) === TRUE) {
     echo "Database created successfully<br>";
@@ -36,6 +36,22 @@ if ($conn->query($sql) === TRUE) {
     echo "Error creating doctors table: " . $conn->error;
 }
 
+// Create doctors table
+$sql = "CREATE TABLE IF NOT EXISTS time_slots (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    doctor_id INT,
+    start_time TIME,
+    end_time TIME,
+    date DATE,
+    FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+)";
+if ($conn->query($sql) === TRUE) {
+    echo "Time slots table created successfully<br>";
+} else {
+    echo "Error creating time slots table: " . $conn->error;
+}
+
+
 // Create login table
 $sql = "CREATE TABLE IF NOT EXISTS login (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -58,8 +74,8 @@ $sql = "CREATE TABLE IF NOT EXISTS appointments (
     location VARCHAR(255) NOT NULL,
     health_insurance VARCHAR(255) NOT NULL,
     health_status_description TEXT,
-    appointment_date DATETIME NOT NULL,
-    UNIQUE KEY unique_appointment (doctor_specialty, appointment_date)
+    appointment_date DATE NOT NULL,
+    approved INT DEFAULT 0
 )";
 if ($conn->query($sql) === TRUE) {
     echo "Appointments table created successfully<br>";

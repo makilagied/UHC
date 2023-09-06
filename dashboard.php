@@ -55,6 +55,33 @@ session_start();
             </div>
         </nav>
         
+        <!-- Display Doctor's Name and Department -->
+        <?php
+        // Check if a doctor is logged in (using sessions)
+        if (isset($_SESSION['doctor_id'])) {
+            // Fetch doctor's name and specialty from the doctors table based on session doctor_id
+            $doctor_id = $_SESSION['doctor_id'];
+            require_once('backend/db.php'); // Include the database connection file
+            $doctor_info_query = "SELECT name, specialty FROM doctors WHERE id = $doctor_id";
+            $doctor_info_result = $conn->query($doctor_info_query);
+
+            if ($doctor_info_result && $doctor_info_result->num_rows > 0) {
+                $row = $doctor_info_result->fetch_assoc();
+                $doctor_name = strtoupper($row['name']); // Convert the name to uppercase
+                $doctor_specialty = $row['specialty'];
+
+                echo '<h2 class="mt-4">Welcome, ' . $doctor_name . '</h2>';
+                echo '<p>Department: ' . $doctor_specialty . '</p>';
+            } else {
+                echo "Error fetching doctor's information.";
+            }
+
+            // $conn->close();
+        } else {
+            echo "You are not logged in as a doctor.";
+        }
+        ?>
+
         <!-- Patient Info Table -->
         <h2 class="mt-4">Patient Information</h2>
         <table class="table table-bordered">
@@ -72,64 +99,45 @@ session_start();
             <tbody>
                 <!-- PHP code for fetching and displaying patient data here -->
                 <?php
+                // Check if a doctor is logged in (using sessions)
+                if (isset($_SESSION['doctor_id'])) {
+                    // Fetch doctor's specialty from the doctors table based on session doctor_id
+                    $doctor_id = $_SESSION['doctor_id'];
+                    $doctor_specialty_query = "SELECT specialty FROM doctors WHERE id = $doctor_id";
+                    $specialty_result = $conn->query($doctor_specialty_query);
+                    if ($specialty_result && $specialty_result->num_rows > 0) {
+                        $row = $specialty_result->fetch_assoc();
+                        $doctor_specialty = $row['specialty'];
 
+                        // Fetch patient data and appointment dates from the database based on doctor's specialty
+                        $sql = "SELECT patient_name, phone, location, health_insurance, health_status_description, appointment_date FROM appointments WHERE doctor_specialty = '$doctor_specialty' AND approved=1";
+                        $result = $conn->query($sql);
 
-// Database connection settings
-$servername = "localhost";
-$username = "root";
-$password = "Bee19Knee's99";
-$dbname = "UHC"; // Replace with your database name
-
-// Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if a doctor is logged in (using sessions)
-if (isset($_SESSION['doctor_id'])) {
-    // Fetch doctor's specialty from the doctors table based on session doctor_id
-    $doctor_id = $_SESSION['doctor_id'];
-    $doctor_specialty_query = "SELECT specialty FROM doctors WHERE id = $doctor_id";
-    $specialty_result = $conn->query($doctor_specialty_query);
-    if ($specialty_result && $specialty_result->num_rows > 0) {
-        $row = $specialty_result->fetch_assoc();
-        $doctor_specialty = $row['specialty'];
-
-        // Fetch patient data and appointment dates from the database based on doctor's specialty
-        $sql = "SELECT patient_name, phone, location, health_insurance, health_status_description, appointment_date FROM appointments WHERE doctor_specialty = '$doctor_specialty'";
-        $result = $conn->query($sql);
-
-        if ($result && $result->num_rows > 0) {
-            // Output the patient data in a table
-            $count = 1; // Initialize the count
-            while ($row = $result->fetch_assoc()) {
-                echo '<tr>';
-                echo '<td>' . $count . '</td>'; // Display the count
-                echo '<td>' . $row['patient_name'] . '</td>';
-                echo '<td>' . $row['phone'] . '</td>';
-                echo '<td>' . $row['location'] . '</td>';
-                echo '<td>' . $row['health_insurance'] . '</td>';
-                echo '<td>' . $row['health_status_description'] . '</td>';
-                echo '<td>' . $row['appointment_date'] . '</td>';
-                echo '</tr>';
-                $count++; // Increment the count for the next row
-            }
-            echo '</table>';
-        } else {
-            echo "No patient data found for your specialty.";
-        }
-    } else {
-        echo "Error fetching doctor's specialty.";
-    }
-} else {
-    echo "You are not logged in as a doctor.";
-}
-
-$conn->close();
-?>
+                        if ($result && $result->num_rows > 0) {
+                            // Output the patient data in a table
+                            $count = 1; // Initialize the count
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<tr>';
+                                echo '<td>' . $count . '</td>'; // Display the count
+                                echo '<td>' . $row['patient_name'] . '</td>';
+                                echo '<td>' . $row['phone'] . '</td>';
+                                echo '<td>' . $row['location'] . '</td>';
+                                echo '<td>' . $row['health_insurance'] . '</td>';
+                                echo '<td>' . $row['health_status_description'] . '</td>';
+                                echo '<td>' . $row['appointment_date'] . '</td>';
+                                echo '</tr>';
+                                $count++; // Increment the count for the next row
+                            }
+                        } else {
+                            echo "No patient data found for your specialty.";
+                        }
+                    } else {
+                        echo "Error fetching doctor's specialty.";
+                    }
+                } else {
+                    echo "You are not logged in as a doctor.";
+                }
+                ?>
             </tbody>
         </table>
 
@@ -177,18 +185,17 @@ $conn->close();
         });
     </script>
     <!-- Include the JavaScript code at the end of the page -->
-<script>
-    // Show the chart section when "Analysis" menu item is clicked
-    document.getElementById('showChart').addEventListener('click', function() {
-        document.getElementById('chartSection').style.display = 'block';
-    });
+    <script>
+        // Show the chart section when "Analysis" menu item is clicked
+        document.getElementById('showChart').addEventListener('click', function() {
+            document.getElementById('chartSection').style.display = 'block';
+        });
 
-    // Print the reports when "Print Reports" menu item is clicked
-    document.getElementById('printReports').addEventListener('click', function() {
-        // Open the print dialog
-        window.print();
-    });
-</script>
-
+        // Print the reports when "Print Reports" menu item is clicked
+        document.getElementById('printReports').addEventListener('click', function() {
+            // Open the print dialog
+            window.print();
+        });
+    </script>
 </body>
 </html>

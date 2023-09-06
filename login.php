@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="login-container">
-        <h1>Login</h1>
+        <h1>Doctor's Login</h1>
         <form action="backend/process_login.php" method="POST">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>

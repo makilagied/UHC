@@ -52,9 +52,7 @@
                   <li class="nav-item">
                      <a class="nav-link" href="location.html">Location</a>
                   </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="timetable.html">Timetable</a>
-                  </li>
+                 
                   <li class="nav-item active">
                      <a class="nav-link" href="appointment.html">Appointment</a>
                   </li>
@@ -70,14 +68,14 @@
 
              <div class="col-md-6">
                 <div class="contact_box">
-                  <form method="post" action="appointmentForm.php">
+                  <form method="post" action="/backend/appointmentForm.php">
                      <h1 class="book_text">Book Appointment</h1>
                      <input type="text" class="Email_text" placeholder="Full name *" name="patient_name" required>
                      <input type="number" class="Email_text" placeholder="Phone number *" name="phone" required>
                      <input type="text" class="Email_text" placeholder="Location" name="location" required>
                      <input type="text" class="Email_text" placeholder="Health Insurance" name="health_insurance" required>
                      <input type="text" class="Email_text" placeholder="Health Status Description" rows="5" name="health_status_description">
-                     <input type="datetime-local" class="Email_text" placeholder="Appointment Date and Time" name="appointment_date" required>
+                     <input type="date" class="Email_text" placeholder="Appointment Date and Time" name="appointment_date" required>
                      <select class="Email_text" name="doctor_specialty">
                          <option value="Cardiology">Cardiology</option>
                          <option value="Pediatrics">Pediatrics</option>
@@ -86,6 +84,8 @@
                      </select>
                      <button type="submit">Send</button>
                  </form>
+
+                 <p><a href="myappointment.php">CLICK HERE</a> to view or cancel your appointment</p>
                  
                  
                </div>
