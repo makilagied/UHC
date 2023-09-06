@@ -1,17 +1,5 @@
 <?php
-// Database connection settings
-$servername = "localhost";
-$username = "root";
-$password = "Bee19Knee's99";
-$dbname = "UHC"; // Replace with your database name
-
-// Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once('db.php'); // Include the database connection file
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $full_name = $_POST["patient_name"];
@@ -23,10 +11,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $department = $_POST["doctor_specialty"];
 
     $sql = "INSERT INTO appointments (doctor_specialty, patient_name, phone, location, health_insurance, health_status_description, appointment_date)
-            VALUES ( '$department', '$full_name', '$phone_number', '$location', '$health_insurance', '$health_status_description', '$appointment_date')";
+            VALUES ('$department', '$full_name', '$phone_number', '$location', '$health_insurance', '$health_status_description', '$appointment_date')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Appointment booked successfully!";
+        // Redirect to myappointment.php on success
+        header("Location: ../myappointment.php");
+        exit(); // Make sure to exit to prevent further script execution
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

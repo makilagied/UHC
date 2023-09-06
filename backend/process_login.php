@@ -1,18 +1,8 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "Bee19Knee's99";
-$dbname = "UHC";
+require_once('db.php'); // Include the database connection file
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // Get input from the login form
 $username = $_POST['username'];
