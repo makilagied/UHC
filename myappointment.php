@@ -43,7 +43,8 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <!-- <th>Time</th> -->
+                                 <th>Time</th>
+
                                 <th>Department</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -101,6 +102,7 @@
                     tableBody.append(`
                         <tr>
                             <td>${appointment.appointment_date}</td>
+                            <td>${appointment.available_time}</td>
                             <td>${appointment.doctor_specialty}</td>
                             <td class="${statusClass}">${statusText}</td>
                             <td><button class="btn btn-danger" onclick="cancelAppointment(${appointment.id})">Cancel</button></td>

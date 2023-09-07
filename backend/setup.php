@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "makilagied";
-$password = "password";
+$username = "root";
+$password = "Bee19Knee's99";
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password);
@@ -85,9 +85,13 @@ if ($conn->query($sql) === TRUE) {
 
 // Populate doctors table with initial data and login info
 $doctorData = array(
-    array('Dr. Smith', 'Cardiology'),
-    array('Dr. Johnson', 'Pediatrics'),
-    array('Dr. Williams', 'Dermatology'),
+    array('Dr. Juma', 'General checkup'),
+    array('Dr. Anna ', 'Pediatrics'),
+    array('Dr. Lilian', 'Dermatology'),
+    array('Dr. Henry', 'Dental'),
+    array('Dr. Johnson', 'Cardiology'),
+    array('Dr. Amina', 'Physician'),
+    array('Dr. Sam', 'Neurosurgery'),
     // Add more doctors here
 );
 

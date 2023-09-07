@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $location = $_POST["location"];
     $health_insurance = $_POST["health_insurance"];
     $health_status_description = $_POST["health_status_description"];
+   
     $appointment_date = $_POST["appointment_date"];
     $department = $_POST["doctor_specialty"];
 
