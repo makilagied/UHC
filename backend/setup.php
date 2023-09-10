@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "Bee19Knee's99";
+$username = "makilagied";
+$password = "password";
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password);
@@ -43,6 +43,7 @@ $sql = "CREATE TABLE IF NOT EXISTS time_slots (
     start_time TIME,
     end_time TIME,
     date DATE,
+    is_available TINYINT DEFAULT 1, -- 1 for available, 0 for not available
     FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 )";
 if ($conn->query($sql) === TRUE) {
@@ -75,13 +76,16 @@ $sql = "CREATE TABLE IF NOT EXISTS appointments (
     health_insurance VARCHAR(255) NOT NULL,
     health_status_description TEXT,
     appointment_date DATE NOT NULL,
+    selected_time_slot VARCHAR(8) NOT NULL,  -- Add a column for selected time slot
     approved INT DEFAULT 0
 )";
+
 if ($conn->query($sql) === TRUE) {
     echo "Appointments table created successfully<br>";
 } else {
     echo "Error creating appointments table: " . $conn->error;
 }
+
 
 // Populate doctors table with initial data and login info
 $doctorData = array(

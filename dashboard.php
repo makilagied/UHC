@@ -78,7 +78,7 @@ session_start();
 
             // $conn->close();
         } else {
-            echo "You are not logged in as a doctor.";
+            header("Location: login.php"); 
         }
         ?>
 

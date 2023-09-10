@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end_time = $_POST['end_time'];
 
     // Perform the allocation of time slot and insert data into the 'time_slots' table
-    $sql = "INSERT INTO time_slots (doctor_id, day, start_time, end_time) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO time_slots (doctor_id, date, start_time, end_time) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssss", $doctorId, $date, $start_time, $end_time);
 

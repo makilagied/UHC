@@ -100,13 +100,13 @@
                     const statusClass = appointment.approved === 1 ? "text-success" : "text-danger";
 
                     tableBody.append(`
-                        <tr>
+                    <tr data-appointment-id="${appointment.id}">
                             <td>${appointment.appointment_date}</td>
                             <td>${appointment.available_time}</td>
                             <td>${appointment.doctor_specialty}</td>
                             <td class="${statusClass}">${statusText}</td>
                             <td><button class="btn btn-danger" onclick="cancelAppointment(${appointment.id})">Cancel</button></td>
-                        </tr>
+                    </tr>
                     `);
                 });
             }
@@ -115,17 +115,31 @@
             $("#appointmentsTable").show();
         }
 
-        // Function to cancel an appointment (for demonstration purposes)
-        function cancelAppointment(appointmentId) {
-            // Here, you would implement the logic to cancel the appointment.
-            // You might want to send a request to the server to update the database.
-
-            // For this example, we'll simply remove the row from the table.
-            const row = document.querySelector(`tr[data-appointment-id="${appointmentId}"]`);
-            if (row) {
-                row.remove();
+// Function to cancel an appointment and remove it from the table
+function cancelAppointment(appointmentId) {
+    // Confirm with the user before canceling
+    if (confirm("Are you sure you want to cancel this appointment?")) {
+        // Send an AJAX request to delete the appointment
+        $.ajax({
+            type: "POST",
+            url: "backend/cancel_appointment.php", // Update the URL to your PHP endpoint
+            data: { appointmentId: appointmentId },
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    // Remove the row from the table
+                    $(`tr[data-appointment-id="${appointmentId}"]`).remove();
+                    alert("Appointment canceled successfully.");
+                } else {
+                    alert("Failed to cancel the appointment.");
+                }
+            },
+            error: function () {
+                alert("An error occurred while canceling the appointment.");
             }
-        }
+        });
+    }
+}
     </script>
 </body>
 </html>

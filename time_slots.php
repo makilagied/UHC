@@ -22,15 +22,14 @@
             flex-wrap: wrap;
             justify-content: flex-start;
         }
-        form {
+        .card {
             background-color: #fff;
-            padding: 20px;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
             width: 100%;
-            margin-bottom: 20px;
         }
-        label {
+        .card-header {
             font-weight: bold;
         }
         select, input[type="date"], input[type="time"], input[type="submit"] {
@@ -44,25 +43,21 @@
         #timetable {
             width: 100%;
         }
-        /* Style for filter section */
-        .filter-section {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-        }
-        /* Media query for mobile view */
-        @media (max-width: 768px) {
-            form, .filter-section {
-                width: 100%;
+        /* Media query for desktop view */
+        @media (min-width: 768px) {
+            .container {
+                display: inline-flex;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+            }
+            .card {
+                width: 48%; /* Adjust the width as needed */
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Hospital Dashboard</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -82,120 +77,133 @@
             </ul>
         </div>
     </nav>
-        <form method="POST" action="backend/locate_time.php">
-            <div class="form-group">
-                <label for="doctor">Doctor:</label>
-                <select class="form-control" name="doctor" id="doctor">
-                    <!-- Populate this dropdown with doctor names from the 'doctors' table -->
-                    <?php
-                    // Include your database connection code here
-                    require_once('backend/db.php');
-                    // Fetch doctor names from the 'doctors' table
-                    $sql = "SELECT id, name FROM doctors";
-                    $result = $conn->query($sql);
-
-                    if ($result && $result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<option value='{$row['id']}'>{$row['name']}</option>";
-                        }
-                    }
-                    ?>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="date">Date:</label>
-                <input class="form-control" type="date" name="date" id="date" required>
-            </div>
-
-            <div class="form-group">
-                <label for="start_time">Start Time:</label>
-                <input class="form-control" type="time" name="start_time" id="start_time" required>
-            </div>
-
-            <div class="form-group">
-                <label for="end_time">End Time:</label>
-                <input class="form-control" type="time" name="end_time" id="end_time" required>
-            </div>
-
-            <div class="form-group">
-                <input class="btn btn-primary" type="submit" value="Allocate">
-            </div>
-        </form>
-    </div>
-
-    <!-- Filter options and Timetable display section -->
     <div class="container">
-        <div class="filter-section">
-            <h2>Filter Timetable</h2>
-            <form id="filterForm" method="GET" action="#">
-                <div class="form-group">
-                    <label for="filterDoctor">Filter by Doctor:</label>
-                    <select class="form-control" name="filterDoctor" id="filterDoctor">
-                        <option value="">All Doctors</option>
-                        <!-- Populate this dropdown with doctor names from the 'doctors' table -->
-                        <?php
-                        // Fetch doctor names from the 'doctors' table
-                        $sql = "SELECT id, name FROM doctors";
-                        $result = $conn->query($sql);
+        <!-- Timetable Entry Section -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Timetable Entry</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="backend/locate_time.php">
+                    <div class="form-group">
+                        <label for="doctor">Doctor:</label>
+                        <select class="form-control" name="doctor" id="doctor">
+                            <!-- Populate this dropdown with doctor names from the 'doctors' table -->
+                            <?php
+                            // Include your database connection code here
+                            require_once('backend/db.php');
+                            // Fetch doctor names from the 'doctors' table
+                            $sql = "SELECT id, name FROM doctors";
+                            $result = $conn->query($sql);
 
-                        if ($result && $result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='{$row['id']}'>{$row['name']}</option>";
+                            if ($result && $result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['id']}'>{$row['name']}</option>";
+                                }
                             }
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="filterDate">Filter by Date:</label>
-                    <input class="form-control" type="date" name="filterDate" id="filterDate">
-                </div>
-                <input class="btn btn-primary" type="submit" value="Filter">
-              </form>
+                            ?>
+                        </select>
+                    </div>
 
-            <div id="timetable">
-                <h2>Doctor's Timetable</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Doctor</th>
-                            <th>Day</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        // Include your database connection code here
-                        require_once('backend/db.php');
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input class="form-control" type="date" name="date" id="date" required>
+                    </div>
 
-                        // Fetch doctor's timetable from the 'time_slots' table
-                        $sql = "SELECT doctors.name AS doctor_name, time_slots.date, time_slots.start_time, time_slots.end_time
-                                FROM time_slots
-                                INNER JOIN doctors ON time_slots.doctor_id = doctors.id
-                                ORDER BY time_slots.date DESC";
+                    <div class="form-group">
+                        <label for="start_time">Start Time:</label>
+                        <input class="form-control" type="time" name="start_time" id="start_time" required>
+                    </div>
 
-                        $result = $conn->query($sql);
+                    <div class="form-group">
+                        <label for="end_time">End Time:</label>
+                        <input class="form-control" type="time" name="end_time" id="end_time" required>
+                    </div>
 
-                        if ($result && $result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo '<tr>';
-                                echo '<td>' . $row['doctor_name'] . '</td>';
-                                echo '<td>' . $row['date'] . '</td>';
-                                echo '<td>' . $row['start_time'] . '</td>';
-                                echo '<td>' . $row['end_time'] . '</td>';
-                                echo '</tr>';
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" value="Allocate">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Filter Timetable Section -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Filter Timetable</h2>
+            </div>
+            <div class="card-body">
+                <form id="filterForm" method="GET" action="#">
+                    <div class="form-group">
+                        <label for="filterDoctor">Filter by Doctor:</label>
+                        <select class="form-control" name="filterDoctor" id="filterDoctor">
+                            <option value="">All Doctors</option>
+                            <!-- Populate this dropdown with doctor names from the 'doctors' table -->
+                            <?php
+                            // Fetch doctor names from the 'doctors' table
+                            $sql = "SELECT id, name FROM doctors";
+                            $result = $conn->query($sql);
+
+                            if ($result && $result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value='{$row['id']}'>{$row['name']}</option>";
+                                }
                             }
-                        } else {
-                            echo '<tr><td colspan="4">No timetable available.</td></tr>';
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filterDate">Filter by Date:</label>
+                        <input class="form-control" type="date" name="filterDate" id="filterDate">
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Filter">
+                </form>
+
+                <div id="timetable">
+                    <h2>Doctor's Timetable</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Day</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Include your database connection code here
+                            require_once('backend/db.php');
+
+                            // Fetch doctor's timetable from the 'time_slots' table
+                            $sql = "SELECT doctors.name AS doctor_name, time_slots.date, time_slots.start_time, time_slots.end_time
+                                    FROM time_slots
+                                    INNER JOIN doctors ON time_slots.doctor_id = doctors.id
+                                    ORDER BY time_slots.date DESC";
+
+                            $result = $conn->query($sql);
+
+                            if ($result && $result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<tr>';
+                                    echo '<td>' . $row['doctor_name'] . '</td>';
+                                    echo '<td>' . $row['date'] . '</td>';
+                                    echo '<td>' . $row['start_time'] . '</td>';
+                                    echo '<td>' . $row['end_time'] . '</td>';
+                                    echo '</tr>';
+                                }
+                            } else {
+                                echo '<tr><td colspan="4">No timetable available.</td></tr>';
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
+
 
     <!-- Include Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -234,29 +242,27 @@
 
     <!-- Add this JavaScript code inside the <script> section of your time_slots.php file -->
 <script>
-    // JavaScript to handle filter form submission
-    document.getElementById("filterForm").addEventListener("submit", function (event) {
-        event.preventDefault();
-        const formData = new FormData(this);
+// JavaScript to handle filter form submission
+document.getElementById("filterForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const formData = new FormData(this);
 
-        // Send an AJAX request to the filter_timetable.php script
-        console.log("Form Data:", formData);
+    // Construct the URL with query parameters
+    const url = "backend/filter_timetable.php?" + new URLSearchParams(formData).toString();
 
-fetch("backend/filter_timetable.php", {
-    method: "GET",
-    body: formData,
-})
-.then(response => response.text())
-.then(data => {
-    console.log("Data received:", data);
-    // Update the 'timetable' div with the filtered data
-    document.getElementById("timetable").innerHTML = data;
-})
-.catch(error => {
-    console.error("An error occurred:", error);
-    alert("An error occurred. Please try again later.");
+    // Send a GET request to the filter_timetable.php script
+    fetch(url)
+    .then(response => response.text())
+    .then(data => {
+        console.log("Data received:", data);
+        // Update the 'timetable' div with the filtered data
+        document.getElementById("timetable").innerHTML = data;
+    })
+    .catch(error => {
+        console.error("An error occurred:", error);
+        alert("An error occurred. Please try again later.");
+    });
 });
-
 </script>
 
 </body>
