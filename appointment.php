@@ -82,7 +82,7 @@
                   <a class="nav-link" href="service.html">Service</a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="location.html">Location</a>
+                  <a class="nav-link" href="myappointment.php">My Appointments</a>
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="#"><img src="images/search-icon.png"></a>
@@ -90,33 +90,37 @@
             </ul>
          </div>
       </nav>
-  
-<div class="container">
+
+      <div class="container">
     <h1>Book an Appointment</h1>
     <form id="appointmentForm" action="backend/appointmentForm.php" method="post">
         <div class="row">
-            <!-- Column 1: Full Name and Phone Number -->
-            <div class="col-md-6">
+            <!-- Column 1: Full Name, Phone Number, and Email -->
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="patient_name">Full Name:</label>
                     <input type="text" class="form-control" id="patient_name" name="patient_name" required>
                 </div>
-            </div>
-            <div class="col-md-6">
                 <div class="form-group">
                     <label for="phone">Phone Number:</label>
                     <input type="tel" class="form-control" id="phone" name="phone" required>
                 </div>
-            </div>
-
-            <!-- Column 2: Email and Health Insurance -->
-            <div class="col-md-6">
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" class="form-control" id="email" name="email" required>
                 </div>
             </div>
-            <div class="col-md-6">
+
+            <!-- Column 2: Health Status, Location, and Health Insurance -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="health_status">Health Status:</label>
+                    <input type="text" class="form-control" id="health_status" name="health_status">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" class="form-control" id="location" name="location" readonly>
+                </div>
                 <div class="form-group">
                     <label for="health_insurance">Health Insurance Provider:</label>
                     <select class="form-control" id="health_insurance" name="health_insurance" required>
@@ -128,28 +132,12 @@
                 </div>
             </div>
 
-            <!-- Column 3: Health Status and Location -->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="health_status">Health Status:</label>
-                    <input type="text" class="form-control" id="health_status" name="health_status">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="location">Location:</label>
-                    <input type="text" class="form-control" id="location" name="location" readonly>
-                </div>
-            </div>
-
-            <!-- Column 4: Appointment Date, Doctor Specialty, and Time Slot -->
-            <div class="col-md-6">
+            <!-- Column 3: Date, Doctor Specialty, and Time Slot -->
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="appointment_date">Select Date:</label>
                     <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
                 </div>
-            </div>
-            <div class="col-md-6">
                 <div class="form-group">
                     <label for="doctor_specialty">Select Doctor Specialty:</label>
                     <select class="form-control" id="doctor_specialty" name="doctor_specialty" required>
@@ -157,8 +145,6 @@
                         <!-- Options will be populated dynamically using JavaScript -->
                     </select>
                 </div>
-            </div>
-            <div class="col-md-6">
                 <div class="form-group">
                     <label for="selected_time_slot">Select Time Slot:</label>
                     <select class="form-control" id="selected_time_slot" name="selected_time_slot" required>
@@ -171,6 +157,7 @@
         <button type="submit" class="btn btn-primary">Book Appointment</button>
     </form>
 </div>
+      
 
 
 

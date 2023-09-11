@@ -16,7 +16,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.html">Home</a>
-        <a class="navbar-brand" href="appointment.html">Appointments</a>
+        <a class="navbar-brand" href="appointment.php">Appointments</a>
     </nav>
 
     <div class="container">
@@ -54,6 +54,7 @@
                             <!-- Appointments will be displayed here -->
                         </tbody>
                     </table>
+                   
                 </div>
             </div>
         </div>
@@ -102,7 +103,7 @@
                     tableBody.append(`
                     <tr data-appointment-id="${appointment.id}">
                             <td>${appointment.appointment_date}</td>
-                            <td>${appointment.available_time}</td>
+                            <td>${appointment.selected_time_slot}</td>
                             <td>${appointment.doctor_specialty}</td>
                             <td class="${statusClass}">${statusText}</td>
                             <td><button class="btn btn-danger" onclick="cancelAppointment(${appointment.id})">Cancel</button></td>
