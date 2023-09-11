@@ -125,12 +125,12 @@ function displayPatientInfo(patient) {
                 <td>${patient.phoneNumber}</td>
             </tr>
             <tr>
-                <th>Email</th>
-                <td>${patient.email}</td>
+                <th>Date</th>
+                <td>${patient.appointment_date}</td>
             </tr>
             <tr> <!-- Display additional patient information -->
-                <th>Location</th>
-                <td>${patient.location}</td>
+                <th>Tmie Slot</th>
+                <td>${patient.selected_time_slot}</td>
             </tr>
             <tr>
                 <th>Doctor Specialty</th>

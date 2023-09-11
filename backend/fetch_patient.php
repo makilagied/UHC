@@ -8,7 +8,7 @@ if (isset($_POST['patientName']) || isset($_POST['patientPhone'])) {
     $patientPhone = isset($_POST['patientPhone']) ? $_POST['patientPhone'] : '';
 
     // Perform a database query to fetch patient data by name or phone number
-    $sql = "SELECT DISTINCT patient_name AS name, phone AS phoneNumber, location, doctor_specialty, health_insurance FROM appointments WHERE patient_name = ? AND phone = ?";
+    $sql = "SELECT DISTINCT patient_name AS name, phone AS phoneNumber, selected_time_slot,appointment_date, doctor_specialty, health_insurance FROM appointments WHERE patient_name = ? AND phone = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $patientName, $patientPhone);
     $stmt->execute();

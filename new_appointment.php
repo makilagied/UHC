@@ -85,10 +85,10 @@
                             <td>' . $row["doctor_specialty"] . '</td>
                             <td>' . $row["patient_name"] . '</td>
                             <td>' . $row["phone"] . '</td>
-                            <td>' . $row["location"] . '</td>
                             <td>' . $row["health_insurance"] . '</td>
                             <td>' . $row["health_status_description"] . '</td>
                             <td>' . $row["appointment_date"] . '</td>
+                            <td>' . $row["selected_time_slot"] . '</td>
                             <td>
                             <button class="btn btn-approve btn-sm" onclick="approveAppointment('.$row["id"].')">Approve</button>
                             </td>

@@ -90,10 +90,10 @@ session_start();
                     <th>#</th>
                     <th>Patient Name</th>
                     <th>Phone</th>
-                    <th>Location</th>
                     <th>Health Insurance</th>
                     <th>Health Status</th>
                     <th>Date</th>
+                    <th>Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -110,7 +110,7 @@ session_start();
                         $doctor_specialty = $row['specialty'];
 
                         // Fetch patient data and appointment dates from the database based on doctor's specialty
-                        $sql = "SELECT patient_name, phone, location, health_insurance, health_status_description, appointment_date FROM appointments WHERE doctor_specialty = '$doctor_specialty' AND approved=1";
+                        $sql = "SELECT * FROM appointments WHERE doctor_specialty = '$doctor_specialty' AND approved=1";
                         $result = $conn->query($sql);
 
                         if ($result && $result->num_rows > 0) {
@@ -121,10 +121,10 @@ session_start();
                                 echo '<td>' . $count . '</td>'; // Display the count
                                 echo '<td>' . $row['patient_name'] . '</td>';
                                 echo '<td>' . $row['phone'] . '</td>';
-                                echo '<td>' . $row['location'] . '</td>';
                                 echo '<td>' . $row['health_insurance'] . '</td>';
                                 echo '<td>' . $row['health_status_description'] . '</td>';
                                 echo '<td>' . $row['appointment_date'] . '</td>';
+                                echo '<td>' . $row['selected_time_slot'] . '</td>';
                                 echo '</tr>';
                                 $count++; // Increment the count for the next row
                             }
