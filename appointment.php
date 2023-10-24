@@ -126,7 +126,11 @@
                     <select class="form-control" id="health_insurance" name="health_insurance" required>
                         <option value="Insurance">Health insurance</option>
                         <option value="NHIF">NHIF</option>
-                        <option value="Jubilee">Jubilee</option>
+                        <option value="JUBILEE">JUBILEE</option>
+                        <option value="STRATEGIES">STRATEGIES</option>
+                        <option value="NSSF">NSSF</option>
+                        <option value="RESOLUTION">RESOLUTION</option>
+                        <option value="AAR"></option>
                         <!-- Add more insurance options as needed -->
                     </select>
                 </div>
